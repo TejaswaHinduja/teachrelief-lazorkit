@@ -7,6 +7,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Highlighter } from "@/components/ui/highlighter";
 import { CometCard } from "@/components/ui/comet-card";
+import { SimpleCard } from "@/components/ui/simple-card";
 import Hat from './icon/hat';
 import { TwitterIcon } from './icon/twitter';
 import { LinkedInIcon } from './icon/linkedin';
@@ -52,6 +53,12 @@ export default function Home() {
               className="text-gray-700 dark:text-gray-200 hover:text-primary transition duration-300"
             >
               How it works
+            </Link>
+            <Link
+              href="#pricing"
+              className="text-gray-700 dark:text-gray-200 hover:text-primary transition duration-300"
+            >
+              Pricing
             </Link>
             <Link
               href="#connect"
@@ -148,6 +155,176 @@ export default function Home() {
                 </div>
               </CometCard>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING SECTION */}
+      <section id="pricing" className="min-h-screen flex items-center justify-center px-6">
+        <div className="max-w-6xl w-full">
+          <div className="text-center mb-12">
+            <Highlighter action="highlight" color="#FFD700">
+              <h2 className="text-4xl font-bold mb-4">Choose Your Plan</h2>
+            </Highlighter>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mt-6">
+              Start with our free tier or unlock premium features with a subscription
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Free Plan */}
+            <SimpleCard>
+              <div className="flex flex-col p-8 rounded-2xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 h-full">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold mb-2">Free</h3>
+                  <div className="mb-4">
+                    <span className="text-4xl font-bold">$0</span>
+                    <span className="text-gray-500">/month</span>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Perfect for trying out the platform
+                  </p>
+                </div>
+                
+                <ul className="space-y-3 mb-8 flex-grow">
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>5 AI gradings per month</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Up to 20 students</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Basic analytics</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Email support</span>
+                  </li>
+                </ul>
+
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => router.push("/auth/signup")}
+                >
+                  Get Started Free
+                </Button>
+              </div>
+            </SimpleCard>
+
+            {/* Monthly Plan */}
+            <SimpleCard>
+              <div className="flex flex-col p-8 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full relative overflow-hidden">
+                <div className="absolute top-4 right-4 bg-yellow-400 text-blue-900 text-xs font-bold px-3 py-1 rounded-full">
+                  POPULAR
+                </div>
+                
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold mb-2">Monthly</h3>
+                  <div className="mb-4">
+                    <span className="text-4xl font-bold">$5</span>
+                    <span className="text-blue-100">/month</span>
+                  </div>
+                  <p className="text-sm text-blue-100">
+                    For active educators
+                  </p>
+                </div>
+                
+                <ul className="space-y-3 mb-8 flex-grow">
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-yellow-300 mt-0.5">✓</span>
+                    <span>Unlimited AI grading</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-yellow-300 mt-0.5">✓</span>
+                    <span>Up to 100 students</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-yellow-300 mt-0.5">✓</span>
+                    <span>Priority support</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-yellow-300 mt-0.5">✓</span>
+                    <span>Advanced analytics</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-yellow-300 mt-0.5">✓</span>
+                    <span>Gasless payments</span>
+                  </li>
+                </ul>
+
+                <Button 
+                  className="w-full bg-white text-blue-600 hover:bg-blue-50"
+                  onClick={() => router.push("/auth/signup?plan=monthly")}
+                >
+                  Subscribe Monthly
+                </Button>
+              </div>
+            </SimpleCard>
+
+            {/* Yearly Plan */}
+            <SimpleCard>
+              <div className="flex flex-col p-8 rounded-2xl bg-white dark:bg-gray-800 border-2 border-purple-500 dark:border-purple-400 h-full relative">
+                <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  SAVE 17%
+                </div>
+                
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold mb-2">Yearly</h3>
+                  <div className="mb-4">
+                    <span className="text-4xl font-bold">$50</span>
+                    <span className="text-gray-500 dark:text-gray-400">/year</span>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Best value for committed users
+                  </p>
+                </div>
+                
+                <ul className="space-y-3 mb-8 flex-grow">
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Unlimited AI grading</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Unlimited students</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Priority support</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Advanced analytics</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Custom integrations</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <span className="text-green-500 mt-0.5">✓</span>
+                    <span>Dedicated support</span>
+                  </li>
+                </ul>
+
+                <Button 
+                  className="w-full"
+                  onClick={() => router.push("/auth/signup?plan=yearly")}
+                >
+                  Subscribe Yearly
+                </Button>
+              </div>
+            </SimpleCard>
+          </div>
+
+          {/* Additional Info */}
+          <div className="mt-12 text-center">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              💳 All plans include <strong>passkey authentication</strong> and <strong>gasless transactions</strong> powered by LazorKit
+            </p>
           </div>
         </div>
       </section>

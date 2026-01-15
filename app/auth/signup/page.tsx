@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useWallet } from "@lazorkit/wallet";
 import { Button } from "@/components/ui/button";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
@@ -11,16 +11,20 @@ import Hat from "@/app/icon/hat";
 
 export default function SignupPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const plan = searchParams.get("plan"); // Get plan from URL (monthly/yearly)
   const { connect, isConnected, isConnecting, wallet } = useWallet();
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState<"intro" | "creating">("intro");
 
-  // Redirect to dashboard if already connected
+  // Redirect to subscribe page if plan is selected and wallet is connected
   useEffect(() => {
-    if (isConnected && wallet) {
+    if (isConnected && wallet && plan) {
+      router.push("/subscribe?plan=" + plan);
+    } else if (isConnected && wallet) {
       router.push("/dashboard");
     }
-  }, [isConnected, wallet, router]);
+  }, [isConnected, wallet, plan, router]);
 
   const handleCreateWallet = async () => {
     try {
@@ -66,6 +70,13 @@ export default function SignupPage() {
             <p className="text-gray-600 dark:text-gray-400">
               Get started with your smart wallet in seconds
             </p>
+            {plan && (
+              <div className="mt-4 inline-block bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full">
+                <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
+                  🎯 {plan === "monthly" ? "Monthly Plan" : "Yearly Plan"} Selected
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Features */}

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useWallet } from "@lazorkit/wallet";
 import { SystemProgram, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { Button } from "@/components/ui/button";
-import { CometCard } from "@/components/ui/comet-card";
+import { SimpleCard } from "@/components/ui/simple-card";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -112,8 +112,8 @@ export default function PaymentPage() {
           </div>
 
           {/* Payment Card */}
-          <CometCard className="mb-8">
-            <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl">
+          <SimpleCard className="mb-8">
+            <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-lg">
               {/* Service Details */}
               <div className="mb-6">
                 <h2 className="text-2xl font-bold mb-4">AI Grading Service</h2>
@@ -215,7 +215,7 @@ export default function PaymentPage() {
                 </p>
               </div>
             </div>
-          </CometCard>
+          </SimpleCard>
 
           {/* Info Box */}
           <div className="bg-purple-50 dark:bg-purple-900/20 rounded-xl p-6">

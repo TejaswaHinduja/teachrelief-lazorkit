@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useWallet } from "@lazorkit/wallet";
 import { SystemProgram, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { Button } from "@/components/ui/button";
-import { CometCard } from "@/components/ui/comet-card";
+import { SimpleCard } from "@/components/ui/simple-card";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -162,7 +162,7 @@ export default function SubscribePage() {
               {/* Plan Selection */}
               <div className="grid md:grid-cols-2 gap-6 mb-8">
                 {/* Monthly Plan */}
-                <CometCard className={selectedPlan === "monthly" ? "ring-2 ring-blue-500" : ""}>
+                <SimpleCard className={selectedPlan === "monthly" ? "ring-2 ring-blue-500" : ""}>
                   <div
                     className="p-8 bg-white dark:bg-gray-900 rounded-2xl h-full cursor-pointer"
                     onClick={() => setSelectedPlan("monthly")}
@@ -188,10 +188,10 @@ export default function SubscribePage() {
                       ))}
                     </ul>
                   </div>
-                </CometCard>
+                </SimpleCard>
 
                 {/* Yearly Plan */}
-                <CometCard className={selectedPlan === "yearly" ? "ring-2 ring-blue-500" : ""}>
+                <SimpleCard className={selectedPlan === "yearly" ? "ring-2 ring-blue-500" : ""}>
                   <div
                     className="p-8 bg-white dark:bg-gray-900 rounded-2xl h-full cursor-pointer relative"
                     onClick={() => setSelectedPlan("yearly")}
@@ -222,7 +222,7 @@ export default function SubscribePage() {
                       ))}
                     </ul>
                   </div>
-                </CometCard>
+                </SimpleCard>
               </div>
 
               {/* Error Message */}
@@ -279,7 +279,7 @@ export default function SubscribePage() {
           ) : (
             /* Subscription Active State */
             <div className="max-w-2xl mx-auto">
-              <CometCard>
+              <SimpleCard>
                 <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl">
                   {/* Success Message */}
                   <div className="text-center mb-8">
@@ -350,7 +350,7 @@ export default function SubscribePage() {
                     You can cancel anytime. No refunds for partial periods.
                   </p>
                 </div>
-              </CometCard>
+              </SimpleCard>
             </div>
           )}
         </div>

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@lazorkit/wallet";
 import { Button } from "@/components/ui/button";
-import { CometCard } from "@/components/ui/comet-card";
+import { SimpleCard } from "@/components/ui/simple-card";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -91,8 +91,8 @@ export default function DashboardPage() {
 
           {/* Wallet Card */}
           <div className="mb-8">
-            <CometCard className="w-full">
-              <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl">
+            <SimpleCard className="w-full">
+              <div className="p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-lg">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Your Smart Wallet</h2>
                   <div className="px-3 py-1 bg-green-100 dark:bg-green-900/30 rounded-full">
@@ -149,14 +149,14 @@ export default function DashboardPage() {
                   </Button>
                 </div>
               </div>
-            </CometCard>
+            </SimpleCard>
           </div>
 
           {/* Features Grid */}
           <div className="grid md:grid-cols-2 gap-6">
             {/* Payment Feature */}
-            <CometCard>
-              <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl h-full">
+            <SimpleCard>
+              <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl h-full shadow-lg border border-gray-200 dark:border-gray-700">
                 <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4">
                   <span className="text-2xl">💳</span>
                 </div>
@@ -168,11 +168,11 @@ export default function DashboardPage() {
                   Try Payment Demo
                 </Button>
               </div>
-            </CometCard>
+            </SimpleCard>
 
             {/* Subscription Feature */}
-            <CometCard>
-              <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl h-full">
+            <SimpleCard>
+              <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl h-full shadow-lg border border-gray-200 dark:border-gray-700">
                 <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-4">
                   <span className="text-2xl">🔄</span>
                 </div>
@@ -184,7 +184,7 @@ export default function DashboardPage() {
                   Manage Subscription
                 </Button>
               </div>
-            </CometCard>
+            </SimpleCard>
           </div>
 
           {/* Info Box */}
