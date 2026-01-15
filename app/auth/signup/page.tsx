@@ -61,11 +61,11 @@ export default function SignupPage() {
         repeatdelay={1}
         className={cn(
           "fixed inset-0 -z-10",
-          "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+          "mask[radial-gradient(500px_circle_at_center,white,transparent)]",
           "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
         )}
       />
-      <div className="fixed inset-0 -z-10 pointer-events-none bg-gradient-to-b from-sky-200/40 via-blue-200/30 to-blue-300/20" />
+      <div className="fixed inset-0 -z-10 pointer-events-none bg-linear-to-b from-sky-200/40 via-blue-200/30 to-blue-300/20" />
 
       {/* Signup Card */}
       <div className="w-full max-w-md mx-4">
@@ -94,7 +94,7 @@ export default function SignupPage() {
           {/* Features */}
           <div className="space-y-4 mb-6">
             <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mt-0.5">
+              <div className="shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mt-0.5">
                 <span className="text-green-600 dark:text-green-400 text-sm">✓</span>
               </div>
               <div>
@@ -106,7 +106,7 @@ export default function SignupPage() {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mt-0.5">
+              <div className="shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mt-0.5">
                 <span className="text-green-600 dark:text-green-400 text-sm">✓</span>
               </div>
               <div>
@@ -118,7 +118,7 @@ export default function SignupPage() {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mt-0.5">
+              <div className="shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mt-0.5">
                 <span className="text-green-600 dark:text-green-400 text-sm">✓</span>
               </div>
               <div>
