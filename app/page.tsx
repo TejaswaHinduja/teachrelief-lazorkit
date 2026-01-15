@@ -1,36 +1,20 @@
-"use client"
-
+"use client";
 
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { LazorkitProvider } from '@lazorkit/wallet';
 import { AnimatedGridPattern } from '@/components/ui/animated-grid-pattern';
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Highlighter } from "@/components/ui/highlighter"
+import { Highlighter } from "@/components/ui/highlighter";
 import { CometCard } from "@/components/ui/comet-card";
 import Hat from './icon/hat';
 import { TwitterIcon } from './icon/twitter';
 import { LinkedInIcon } from './icon/linkedin';
 
-
-
-
 export default function Home() {
-  const CONFIG = {
-    RPC_URL: "https://api.devnet.solana.com",
-    PORTAL_URL: "https://portal.lazor.sh",
-    PAYMASTER: { 
-      paymasterUrl: "https://kora.devnet.lazorkit.com" 
-    }
-  };
-  const router=useRouter();
+  const router = useRouter();
+  
   return (
-    <LazorkitProvider
-    rpcUrl={CONFIG.RPC_URL}
-    portalUrl={CONFIG.PORTAL_URL}
-    paymasterConfig={CONFIG.PAYMASTER}
-  >
     <div className="relative min-h-screen overflow-hidden">
       <AnimatedGridPattern
         numSquares={30}
@@ -197,9 +181,5 @@ export default function Home() {
       </section>
 
     </div>
- 
-   
-    
-    </LazorkitProvider>
   );
 }
