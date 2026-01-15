@@ -13,24 +13,33 @@ export default function SignupPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const plan = searchParams.get("plan"); // Get plan from URL (monthly/yearly)
-  const { connect, isConnected, isConnecting, wallet } = useWallet();
+  const { connect, isConnected, isConnecting, wallet, smartWalletPubkey } = useWallet();
   const [error, setError] = useState<string | null>(null);
-  const [step, setStep] = useState<"intro" | "creating">("intro");
+  const [step, setStep] = useState<"intro" | "creating" | "success">("intro");
 
-  // Redirect to subscribe page if plan is selected and wallet is connected
+  // Redirect to subscribe page if plan is selected and wallet is fully connected
   useEffect(() => {
-    if (isConnected && wallet && plan) {
-      router.push("/subscribe?plan=" + plan);
-    } else if (isConnected && wallet) {
-      router.push("/dashboard");
+    if (isConnected && wallet && smartWalletPubkey) {
+      // Show success state briefly before redirecting
+      if (step !== "success") {
+        setStep("success");
+        setTimeout(() => {
+          if (plan) {
+            router.push("/subscribe?plan=" + plan);
+          } else {
+            router.push("/dashboard");
+          }
+        }, 1500);
+      }
     }
-  }, [isConnected, wallet, plan, router]);
+  }, [isConnected, wallet, smartWalletPubkey, plan, router, step]);
 
   const handleCreateWallet = async () => {
     try {
       setError(null);
       setStep("creating");
-      await connect();
+      // Connect with paymaster fee mode for gasless transactions
+      await connect({ feeMode: 'paymaster' });
       // Connection successful, redirect handled by useEffect
     } catch (err) {
       console.error("Wallet creation failed:", err);
@@ -134,10 +143,29 @@ export default function SignupPage() {
             </div>
           )}
 
+          {/* Success State */}
+          {step === "success" && (
+            <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
+                  <span className="text-white text-lg">✓</span>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-green-800 dark:text-green-200">
+                    Wallet Created Successfully!
+                  </p>
+                  <p className="text-xs text-green-700 dark:text-green-300">
+                    Redirecting you now...
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Create Wallet Button */}
           <Button
             onClick={handleCreateWallet}
-            disabled={isConnecting || step === "creating"}
+            disabled={isConnecting || step === "creating" || step === "success"}
             className="w-full py-6 text-lg"
             size="lg"
           >
@@ -145,6 +173,11 @@ export default function SignupPage() {
               <>
                 <span className="animate-spin mr-2">⏳</span>
                 Creating your wallet...
+              </>
+            ) : step === "success" ? (
+              <>
+                <span className="mr-2">✓</span>
+                Wallet Ready!
               </>
             ) : (
               <>

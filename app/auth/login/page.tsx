@@ -24,7 +24,8 @@ export default function LoginPage() {
   const handlePasskeyLogin = async () => {
     try {
       setError(null);
-      await connect();
+      // Connect with paymaster fee mode for gasless transactions
+      await connect({ feeMode: 'paymaster' });
       // Connection successful, redirect handled by useEffect
     } catch (err) {
       console.error("Login failed:", err);

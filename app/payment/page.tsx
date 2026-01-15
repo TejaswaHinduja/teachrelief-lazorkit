@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@lazorkit/wallet";
-import { SystemProgram, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+import { SystemProgram, LAMPORTS_PER_SOL, PublicKey, Connection } from "@solana/web3.js";
 import { Button } from "@/components/ui/button";
 import { SimpleCard } from "@/components/ui/simple-card";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
+import { CONFIG } from "@/lib/config";
 import Link from "next/link";
 import Hat from "@/app/icon/hat";
 
@@ -25,39 +26,116 @@ export default function PaymentPage() {
     }
   }, [isConnected, router]);
 
+  // Log wallet state for debugging
+  useEffect(() => {
+    console.log("Wallet state:", {
+      isConnected,
+      smartWalletPubkey: smartWalletPubkey?.toString(),
+    });
+  }, [isConnected, smartWalletPubkey]);
+
   const handlePayment = async () => {
     try {
       setIsProcessing(true);
       setError(null);
       setTxSignature(null);
 
-      if (!smartWalletPubkey) {
-        throw new Error("Wallet not connected");
+      // Validate wallet connection
+      if (!isConnected) {
+        throw new Error("Please connect your wallet first");
       }
 
-      // Demo: Send 0.001 SOL (you can change this to USDC transfer)
-      // For demo purposes, sending to a burn address
-      const DEMO_RECIPIENT = "11111111111111111111111111111111"; // System program (burn)
+      if (!smartWalletPubkey) {
+        throw new Error("Wallet address not available. Please reconnect your wallet.");
+      }
+
+      console.log("Smart wallet pubkey:", smartWalletPubkey.toString());
+
+      // Use recipient address from config
+      const recipientAddress = CONFIG.PAYMENT_RECIPIENT;
+      const amount = CONFIG.PAYMENT_AMOUNT * LAMPORTS_PER_SOL;
+
+      // Validate recipient address
+      let recipientPubkey: PublicKey;
+      try {
+        recipientPubkey = new PublicKey(recipientAddress);
+        console.log("Recipient address validated:", recipientPubkey.toString());
+      } catch (err) {
+        throw new Error(`Invalid recipient address: ${recipientAddress}`);
+      }
+
+      // Ensure we're not sending to ourselves
+      if (smartWalletPubkey.toString() === recipientPubkey.toString()) {
+        throw new Error("Cannot send to the same wallet address");
+      }
+
+      // Check wallet balance
+      try {
+        const connection = new Connection("https://api.devnet.solana.com", "confirmed");
+        const balance = await connection.getBalance(smartWalletPubkey);
+        console.log("Wallet balance:", balance / LAMPORTS_PER_SOL, "SOL");
+        
+        if (balance < amount) {
+          throw new Error(
+            `Insufficient balance. You have ${(balance / LAMPORTS_PER_SOL).toFixed(4)} SOL, but need ${CONFIG.PAYMENT_AMOUNT} SOL. Please fund your wallet first.`
+          );
+        }
+      } catch (balanceErr: any) {
+        console.warn("Could not check balance:", balanceErr.message);
+        if (balanceErr.message.includes("Insufficient balance")) {
+          throw balanceErr;
+        }
+      }
+
+      console.log("Creating transfer instruction...");
+      console.log("From:", smartWalletPubkey.toString());
+      console.log("To:", recipientPubkey.toString());
+      console.log("Amount:", amount, "lamports (", CONFIG.PAYMENT_AMOUNT, "SOL)");
 
       const instruction = SystemProgram.transfer({
         fromPubkey: smartWalletPubkey,
-        toPubkey: new PublicKey(DEMO_RECIPIENT),
-        lamports: 0.001 * LAMPORTS_PER_SOL, // 0.001 SOL
+        toPubkey: recipientPubkey,
+        lamports: amount,
       });
 
-      // Sign and send with gasless transaction
+      console.log("Signing and sending transaction...");
+      // Sign and send with gasless transaction (paymaster handles fees)
       const signature = await signAndSendTransaction({
         instructions: [instruction],
         transactionOptions: {
-          // feeToken: "USDC", // Uncomment to pay gas fees in USDC
+          // Gas fees automatically sponsored by paymaster when connected with feeMode: 'paymaster'
+          // Optional: specify compute unit limit if needed
+          // computeUnitLimit: 200_000,
+          // feeToken: "USDC", // Uncomment to pay gas fees in USDC instead of SOL
         },
       });
 
+      console.log("Transaction signature:", signature);
       setTxSignature(signature);
       console.log("Payment successful:", signature);
     } catch (err: any) {
       console.error("Payment failed:", err);
-      setError(err.message || "Payment failed. Please try again.");
+      console.error("Error details:", JSON.stringify(err, null, 2));
+      
+      // Provide more detailed error messages
+      let errorMessage = "Payment failed. Please try again.";
+      
+      if (err?.message) {
+        errorMessage = err.message;
+      } else if (typeof err === "string") {
+        errorMessage = err;
+      } else if (err?.error?.message) {
+        errorMessage = err.error.message;
+      } else if (err?.toString) {
+        errorMessage = err.toString();
+      }
+      
+      // Check for specific error types
+      if (errorMessage.includes("simulation") || errorMessage.includes("Instruction Error")) {
+        errorMessage = "Transaction failed. Please ensure your wallet has sufficient balance and try again.";
+      }
+      
+      setError(errorMessage);
     } finally {
       setIsProcessing(false);
     }
@@ -81,11 +159,11 @@ export default function PaymentPage() {
         repeatdelay={1}
         className={cn(
           "fixed inset-0 -z-10",
-          "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+          "mask[radial-gradient(500px_circle_at_center,white,transparent)]",
           "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
         )}
       />
-      <div className="fixed inset-0 -z-10 pointer-events-none bg-gradient-to-b from-sky-200/40 via-blue-200/30 to-blue-300/20" />
+      <div className="fixed inset-0 -z-10 pointer-events-none bg-linear-to-b from-sky-200/40 via-blue-200/30 to-blue-300/20" />
 
       {/* Header */}
       <header className="w-full absolute top-0 left-0 z-40 bg-transparent">

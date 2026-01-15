@@ -186,7 +186,7 @@ export default function Home() {
                   </p>
                 </div>
                 
-                <ul className="space-y-3 mb-8 flex-grow">
+                <ul className="space-y-3 mb-8 grow">
                   <li className="flex items-start gap-2 text-sm">
                     <span className="text-green-500 mt-0.5">✓</span>
                     <span>5 AI gradings per month</span>
@@ -217,7 +217,7 @@ export default function Home() {
 
             {/* Monthly Plan */}
             <SimpleCard>
-              <div className="flex flex-col p-8 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white h-full relative overflow-hidden">
+              <div className="flex flex-col p-8 rounded-2xl bg-linear-to-br from-blue-500 to-blue-600 text-white h-full relative overflow-hidden">
                 <div className="absolute top-4 right-4 bg-yellow-400 text-blue-900 text-xs font-bold px-3 py-1 rounded-full">
                   POPULAR
                 </div>
@@ -233,7 +233,7 @@ export default function Home() {
                   </p>
                 </div>
                 
-                <ul className="space-y-3 mb-8 flex-grow">
+                <ul className="space-y-3 mb-8 grow">
                   <li className="flex items-start gap-2 text-sm">
                     <span className="text-yellow-300 mt-0.5">✓</span>
                     <span>Unlimited AI grading</span>
@@ -257,7 +257,7 @@ export default function Home() {
                 </ul>
 
                 <Button 
-                  className="w-full bg-white text-blue-600 hover:bg-blue-50"
+                  className="w-full bg-white text-blue-600 hover:bg-blue-50 cursor-pointer"
                   onClick={() => router.push("/auth/signup?plan=monthly")}
                 >
                   Subscribe Monthly
@@ -283,7 +283,7 @@ export default function Home() {
                   </p>
                 </div>
                 
-                <ul className="space-y-3 mb-8 flex-grow">
+                <ul className="space-y-3 mb-8 grow">
                   <li className="flex items-start gap-2 text-sm">
                     <span className="text-green-500 mt-0.5">✓</span>
                     <span>Unlimited AI grading</span>
