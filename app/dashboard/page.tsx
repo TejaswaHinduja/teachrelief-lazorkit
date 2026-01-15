@@ -10,6 +10,9 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Hat from "@/app/icon/hat";
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic';
+
 export default function DashboardPage() {
   const router = useRouter();
   const { isConnected, wallet, disconnect, smartWalletPubkey } = useWallet();

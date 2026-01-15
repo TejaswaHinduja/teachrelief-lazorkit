@@ -12,6 +12,9 @@ import { CONFIG } from "@/lib/config";
 import Link from "next/link";
 import Hat from "@/app/icon/hat";
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic';
+
 type Plan = "monthly" | "yearly";
 
 export default function SubscribePage() {

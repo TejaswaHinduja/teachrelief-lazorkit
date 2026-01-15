@@ -12,6 +12,9 @@ import Hat from './icon/hat';
 import { TwitterIcon } from './icon/twitter';
 import { LinkedInIcon } from './icon/linkedin';
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   const router = useRouter();
   
